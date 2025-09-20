@@ -1,12 +1,20 @@
-import ApiError from '../utils/BaseError.js'
-const errorHandlerMiddleware = (err,req,res,next)=>{
-
-    if(err instanceof ApiError){
-        // console.log(err.message)
-        return res.status(err.statusCode).json({message:err.message,success:false})
+import { Api500Error } from "../errors/errors.js";
+const errorHandlerMiddleware = (err, req, res, next) => {
+    if (err.isOperational) {
+        return res.status(err.statusCode).json({
+            name: err.name,
+            statusCode: err.statusCode,
+            message: err.description
+        });
     }
-    console.log(err)
-    return res.status(500).json({message:"Somthing Went Wrong ,Please try again","success": false})
+
+    // For unexpected errors
+    const unexpectedError = new Api500Error('UnexpectedError', undefined, err.message);
+    res.status(unexpectedError.statusCode).json({
+        name: unexpectedError.name,
+        statusCode: unexpectedError.statusCode,
+        message: unexpectedError.description
+    });
 }
 
 export default errorHandlerMiddleware
