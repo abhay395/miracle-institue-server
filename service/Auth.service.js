@@ -4,6 +4,7 @@ import { Api401Error } from "../errors/errors.js";
 import Otp from "../models/Otp.model.js";
 import sendMail from '../utils/sendMail.js'
 import { CONSTANTS } from "../utils/constants.js";
+import { createToken } from "../utils/helper.js";
 export default {
     signupUser: async (body) => {
         try {
@@ -55,6 +56,7 @@ export default {
             let RandomOtp = Math.random() * (9999 - 1000) + 1000
             RandomOtp = parseInt(RandomOtp)
             let otp = new Otp({ userId: user._id, otp: RandomOtp, expiredAt: new Date(Date.now() + 10 * 60 * 1000) })
+            await otp.save()
             if (user.email) {
                 let emailRequest = {
                     template: CONSTANTS.USERS.VERIFYOTP,
@@ -69,19 +71,35 @@ export default {
             } else {
                 throw new Api401Error('user-signup-error', 'Email is required for signup');
             }
+            return { OtpId: otp._id }
         } catch (error) {
             throw error
         }
     },
-    otpVerification: async (otpId, otp) => {
+    otpVerification: async ({ OtpId, otp }) => {
         try {
-            const otpRecord = await Otp.findById(otpId)
+            const otpRecord = await Otp.findById(OtpId)
             if (!otpRecord) throw new Api401Error('otp-verification-error', 'Invalid Otp');
             if (otpRecord.expiredAt < new Date()) throw new Api401Error('otp-verification-error', 'Otp expired');
             if (otpRecord.otp !== otp) throw new Api401Error('otp-verification-error', 'Invalid Otp');
-            await Otp.findByIdAndDelete(otpId)
-            return { token: createToken(otpRecord.userId) }
+            await Otp.findByIdAndDelete(OtpId)
+            let user = await User.findById(otpRecord.userId)
+            if (user.verified === false) {
+                user.verified = true
+                await user.save()
+            }
+            let emailRequest = {
+                template: CONSTANTS.USERS.WELCOME,
+                to: user.email,
+                data: {
+                    name: user.name,
+                    email: user.email
+                }
+            };
+            sendMail.mailSend(emailRequest)
+            return { token: createToken(user) }
         } catch (error) {
+            console.log(error)
             throw error
         }
     }

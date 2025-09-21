@@ -9,14 +9,11 @@ let transporter = nodemailer.createTransport({
     service: "gmail",
     secure: true, // use SSL
     auth: {
-        user: 'abhayparja90@gmail.com',
-        pass: 'vmsajvchgkadrxja'
+        user: 'abhayparjapati78@gmail.com',
+        pass: 'mnxwvwtdixfszful'
     },
 });
-transporter.verify((error, success) => {
-    if (error) console.log("SMTP Error:", error);
-    else console.log("Server ready to send emails");
-});
+
 const sendMail = async (mailoption) => {
     try {
         const info = await transporter.sendMail(mailoption)
@@ -43,7 +40,11 @@ export default {
             var mailMessage;
             var emailTemplate;
             if (emailRequest.template === CONSTANTS.USERS.VERIFYOTP) {
-                subject = 'Verify OTP';
+                subject = CONSTANTS.USERS.VERIFYOTP;
+                emailTemplate = './templates/Otp.html';
+            }
+            if (emailRequest.template == CONSTANTS.USERS.WELCOME) {
+                subject = CONSTANTS.USERS.WELCOME;
                 emailTemplate = './templates/Welcome.html';
             }
             if (emailTemplate) {
