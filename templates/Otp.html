@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Your Miracle Institute OTP</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background: #f6f8fb;
+        font-family: Arial, Helvetica, sans-serif;
+        color: #222;
+      }
+      .container {
+        max-width: 500px;
+        margin: 30px auto;
+        padding: 25px;
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        text-align: center;
+      }
+      .logo img {
+        width: 150px;
+        margin-bottom: 20px;
+      }
+      h2 {
+        color: #16324f;
+        margin-bottom: 10px;
+      }
+      p {
+        color: #374151;
+        line-height: 1.5;
+        font-size: 15px;
+      }
+      .otp {
+        display: inline-block;
+        margin: 20px 0;
+        font-size: 28px;
+        letter-spacing: 6px;
+        padding: 14px 24px;
+        background: #f3f6fb;
+        border-radius: 8px;
+        font-weight: 700;
+        color: #0b3b66;
+        font-family: "Courier New", monospace;
+      }
+      .footer {
+        margin-top: 25px;
+        font-size: 12px;
+        color: #777;
+      }
+      @media (max-width: 420px) {
+        .container {
+          padding: 15px;
+          margin: 15px;
+        }
+        .otp {
+          font-size: 24px;
+          padding: 12px 18px;
+          letter-spacing: 4px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="logo">
+        <!-- Replace with your actual logo -->
+        <img
+          src="https://via.placeholder.com/150x50?text=Miracle+Institute"
+          alt="Miracle Institute"
+        />
+      </div>
+
+      <h2>Your OTP Code</h2>
+      <p>Hello {firstName},</p>
+      <p>
+        Use the OTP below to complete your verification. This code will expire
+        in <strong>{expiryMinutes} minutes</strong>.
+      </p>
+
+      <div class="otp">{otp}</div>
+
+      <p>If you didn’t request this code, please ignore this email.</p>
+
+      <div class="footer">
+        <p>© 2025 Miracle Institute — English Coaching</p>
+      </div>
+    </div>
+  </body>
+</html>

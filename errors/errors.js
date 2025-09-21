@@ -23,33 +23,30 @@ class Api401Error extends BaseError {
 class Api403Error extends BaseError {
     constructor(
         name = 'Api403Error',
-        statusCode = httpStatusCodes.FORBIDDEN,
         description = 'Forbidden.',
         isOperational = true
     ) {
-        super(name, statusCode, isOperational, description);
+        super(name, httpStatusCodes.FORBIDDEN, isOperational, description);
     }
 }
 
 class Api404Error extends BaseError {
     constructor(
         name = 'Api404Error',
-        statusCode = httpStatusCodes.NOT_FOUND,
         description = 'Not found.',
         isOperational = true
     ) {
-        super(name, statusCode, isOperational, description);
+        super(name, httpStatusCodes.NOT_FOUND, isOperational, description);
     }
 }
 
 class Api500Error extends BaseError {
     constructor(
         name = 'Api500Error',
-        statusCode = httpStatusCodes.INTERNAL_SERVER_ERROR,
         description = 'Internal server error.',
         isOperational = true
     ) {
-        super(name, statusCode, isOperational, description);
+        super(name, httpStatusCodes.INTERNAL_SERVER_ERROR, isOperational, description);
     }
 }
 export { Api400Error, Api401Error, Api403Error, Api404Error, Api500Error };

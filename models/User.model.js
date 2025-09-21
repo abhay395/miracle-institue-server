@@ -12,7 +12,11 @@ const userSchema = new mongoose.Schema({
         enum: ["admin", "student", "superadmin"],
         default: "student"
     },
-    isDeleted: { type: Boolean, default: false }
+    isDeleted: { type: Boolean, default: false },
+    verified: {
+        type: Boolean,
+        default: false
+    }
 }, { timestamps: true });
 
 userSchema.statics.isEmailTaken = async function (email) {

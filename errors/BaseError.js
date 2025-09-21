@@ -5,7 +5,7 @@ class BaseError extends Error {
         this.name = name
         this.statusCode = statusCode
         this.isOperational = isOperational
-        Error.captureStackTrace(this)
+        // Error.captureStackTrace(this)
     }
 }
 export default BaseError
