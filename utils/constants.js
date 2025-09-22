@@ -7,7 +7,6 @@ const CONSTANTS = {
     },
     ADMIN: {
         ADD: 'Admin Added',
-        SCHEDULERIDEMAIL: 'Schedule Ride Email'
     }
 };
 

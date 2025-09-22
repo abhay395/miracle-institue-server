@@ -17,9 +17,7 @@ let transporter = nodemailer.createTransport({
 const sendMail = async (mailoption) => {
     try {
         const info = await transporter.sendMail(mailoption)
-        console.log(info)
     } catch (error) {
-        console.log(error)
         throw new Api500Error('Mail-Error')
     }
 }
@@ -50,6 +48,8 @@ export default {
             if (emailTemplate) {
                 const result = await readFile(emailTemplate);
                 mailMessage = result.replace(/{email}/g, emailRequest?.data?.email);
+                console.log(emailRequest)
+                mailMessage = mailMessage.replace(/{studentId}/g, emailRequest?.data?.studentId);
                 mailMessage = mailMessage.replace(/{firstName}/g, emailRequest?.data?.name);
                 mailMessage = mailMessage.replace(/{otp}/g, emailRequest?.data?.otp);
                 mailMessage = mailMessage.replace(/{expiryMinutes}/g, 2);
@@ -66,8 +66,6 @@ export default {
                         const data = await fs.promises.readFile(file, 'utf8');
                         return data;
                     } catch (error) {
-                        // console.log()
-                        console.log(error);
                         throw new Api500Error("read-email-template-error")
                     };
                 };

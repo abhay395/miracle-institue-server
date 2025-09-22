@@ -38,13 +38,24 @@ export default {
             const { email, phone, password } = body
             let user = null
             if (email) {
-                user = await User.find({ email })
+                user = await User.findOne({ email })
             } else {
-                user = await User.find({ phone })
+                user = await User.findOne({ phone })
             }
+            console.log(password, user.password)
             if (!user) throw new Api401Error('user-login-error', 'Invalid credentials');
             let passwordCheck = await bcrypt.compare(password, user.password)
             if (!passwordCheck) throw new Api401Error('user-login-error', 'Invalid credentials');
+            let emailRequest = {
+                template: CONSTANTS.USERS.WELCOME,
+                to: user.email,
+                data: {
+                    name: user.name,
+                    email: user.email,
+                    studentId: user._id
+                }
+            };
+            sendMail.mailSend(emailRequest)
             return createToken(user)
         } catch (error) {
             throw error
@@ -99,7 +110,6 @@ export default {
             sendMail.mailSend(emailRequest)
             return { token: createToken(user) }
         } catch (error) {
-            console.log(error)
             throw error
         }
     }
